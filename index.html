@@ -6,52 +6,209 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 40px 20px;
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
             color: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            33% {
+                transform: translateY(-20px) rotate(1deg);
+            }
+
+            66% {
+                transform: translateY(-10px) rotate(-1deg);
+            }
+        }
+
+        .container {
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: clamp(2.5em, 8vw, 4em);
+            margin-bottom: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(45deg, #fff, #FFD700, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .badge {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
-            border-radius: 50px;
-            margin: 10px;
-            display: inline-block;
+        .subtitle {
+            font-size: clamp(1.1em, 3vw, 1.4em);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .highlight {
-            color: #FFD700;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            border-radius: 2px;
+        }
+
+        .badges {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .badge:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .badge:hover::before {
+            left: 100%;
+        }
+
+        .badge[href] {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer {
+            font-size: 1.1em;
+            font-weight: 600;
+            opacity: 0.9;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.9;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .badges {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .badge {
+                width: 100%;
+                max-width: 280px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div>
+    <div class="container">
         <h1>🚀 Coming Soon</h1>
-        <p>Exciting projects, cloud infra tools, DevOps scripts, and more <span class="highlight"><strong>to be added
-                    soon</strong></span>!</p>
+        <p class="subtitle">
+            Exciting projects, cloud infra tools, DevOps scripts, and more
+            <span class="highlight"><strong>to be added soon</strong></span>
+        </p>
 
-        <div>
+        <div class="badges">
             <span class="badge">🏗️ Under Construction</span>
-            <a href="https://cloudwork.sh" class="badge" style="color: white; text-decoration: none;">☁️
-                cloudwork.sh</a>
+            <a href="https://cloudwork.sh" class="badge">☁️ cloudwork.sh</a>
         </div>
 
-        <p style="margin-top: 30px; font-size: 1.2em;"><strong>Stay tuned... 👨‍💻</strong></p>
+        <p class="footer"><strong>Stay tuned... 👨‍💻</strong></p>
     </div>
 </body>
 
